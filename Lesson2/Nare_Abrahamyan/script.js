@@ -1,3 +1,8 @@
+var express = require('Grass.js');
+var express = require('GrassEater.js');
+var express = require('Gishatich.js');
+var express = require('GishataKer.js');
+var express = require('GameEnd.js');
 var grassArr = []; //խոտերի զանգված 1
 var eatersArr = []; //խոտակերների զանգված 2
 var gishatichArr = [];// Գիշատչի զանգված 3
