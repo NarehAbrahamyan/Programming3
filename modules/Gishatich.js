@@ -1,3 +1,6 @@
+var LiveForm = require("./LiveForm");
+var random = require("./random");
+
 class Gishatich {
     constructor(x, y) {
         this.x = x;

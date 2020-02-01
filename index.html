@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <meta charset="utf8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        div {
+            display: inline-block;
+        }
+
+        h1 {
+            padding: 20px;
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <h1>Ծրագրավորում III Երևան</h1>
+            </tr>
+            <tr>
+                <h1>Նարէ Աբրահամյան</h1>
+            </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Գույն</th>
+                <th scope="col">Նկարագրություն</th>
+                <th scope="col">Ծնվել է</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td scope="row" style="background-color:green;"></td>
+                <td>Կանաչը խոտն է, բազմանում է մոտակա 8 վանդակներում, 4 տակտը մեկ, սատկում է, երբ նրան ուտում է խոտակերը:</td>
+                <td id="grassCount"></td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td scope="row" style="background-color:yellow;"></td>
+                <td>Դեղինը խոտակերն է, բազմանում է երբ էներգիան 10֊ից ավել է,Սատկում է, երբ էներգիան փոքր է 0֊ից,
+                    կամ էլ նրան ուտում է գիշատիչը:</td>
+                <td id="grassEaterCount"></td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td scope="row" style="background-color:red;"></td>
+                <td>Կարմիրը գիշատիչն է , ուտում է խոտակերին, 8 վանդակներում շարժվելիս էներգիան ավելանում է 1-ով, 
+                    Բազմանում է, երբ էներգիան 50 - է,Սատկում է, երբ էներգիան 5 է և ավելի քիչ, կամ , երբ նրան ուտում է գիշատակերը:</td>
+                <td id="GishatichCount"></td>
+            </tr>
+
+            <tr>
+                <th scope="row">4</th>
+                <td scope="row" style="background-color:purple;"></td>
+                <td>Մանուշակագույնը գիշատակերն է: Բազմանում է, երբ էներգիան 26 է: Սատկում է, երբ էներգիան սպառվում է:</td>
+                <td id="GishatakerCount"></td>
+            </tr> 
+
+            
+        </tbody>
+    </table>
+    <script src="p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,5 @@
+var LiveForm = require("./LiveForm");
+var random = require("./random");
 
 class GameEnder {
     constructor(x, y) {

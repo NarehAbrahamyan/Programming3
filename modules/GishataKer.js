@@ -1,28 +1,30 @@
-class GrassEater {
+var LiveForm = require("./LiveForm");
+var random = require("./random");
+
+class Gishataker {
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.multiply = 0;
-        this.energy = 3;
-        this.directions =[];
+        this.energy = 25;
+        this.directions = 
+        [];
     }
 
     //թարմացնել շրջապատի կոորդինատները
     updateCoordinates() {
         this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
+            [this.x +1 , this.y - 1],
+            [this.x +1, this.y],
+            [this.x + 1, this.y + 1],
+            [this.x +1 , this.y + 2],
+            [this.x +1, this.y + 3],
+            [this.x +1 , this.y + 4],
+            [this.x + 1, this.y + 5],
+            [this.x +1 , this.y + 6]
         ];
     }
 
-    //հետազոտում է շրջապատը, որոնում է հետաքրքրող կերպարներին
-    //կերպարը որոշվում է character արգումենտով
     chooseCell(character) {
         this.updateCoordinates();
         var found = [];
@@ -44,19 +46,44 @@ class GrassEater {
     move() {
         //որոնում է դատարկ տարածքներ
         var emptyCells = this.chooseCell(0);
-        var cօord = random(emptyCells); // 4,3
+        var coord = random(emptyCells);
 
-        if (cօord) {
-            var x = cօord[0];
-            var y = cօord[1];
+        if (coord) {
+            var x = coord[0];
+            var y = coord[1];
 
             //շարժվում է
-            matrix[y][x] = 2;
+            matrix[y][x] = 4;
             matrix[this.y][this.x] = 0;
 
             //նոր կորդինատներ է ստանում
             this.x = x;
             this.y = y;
+        }
+
+        else{
+            emptyCells = this.chooseCell(1);
+            var coord = random(emptyCells);
+              if (coord) {
+            var x = coord[0];
+            var y = coord[1];
+
+            //շարժվում է
+            matrix[y][x] = 4;
+            matrix[this.y][this.x] = 1;
+
+             for (var i in grassArr) {
+            if (x == grassArr[i].x && y == grassArr[i].y) {
+               grassArr.splice(i, 1);
+            }
+            var gxot = new Grass(this.x,this.y);
+            grassArr.push(gxot)
+            this.x = x;
+            this.y = y;
+        }
+            //նոր կորդինատներ է ստանում
+        }
+
         }
     }
 
@@ -64,8 +91,8 @@ class GrassEater {
     //eat()-ուտել
     eat() {
         //հետազոտում է շրջակայքը, որոնում է սնունդ
-        var grassCells = this.chooseCell(1);
-        var coord = random(grassCells);
+        var gishatichCells = this.chooseCell(3);
+        var coord = random(gishatichCells);
 
         //եթե կա հարմար սնունդ
         if (coord) {
@@ -74,7 +101,7 @@ class GrassEater {
 
             //հիմնական մատրիցայում տեղափոխվում է կերած սննդի տեղը
             //իր հին տեղը դնում է դատարկ վանդակ
-            matrix[y][x] = 2;
+            matrix[y][x] = 3;
             matrix[this.y][this.x] = 0;
 
             //փոխում է սեփական կորդինատները օբյեկտի մեջ
@@ -88,14 +115,14 @@ class GrassEater {
             this.energy++;
 
             // սննդի զանգվածից ջնջում է կերված սնունդը
-            for (var i in grassArr) {
-                if (x == grassArr[i].x && y == grassArr[i].y) {
-                    grassArr.splice(i, 1);
+            for (var i in gishatichArr) {
+                if (x == gishatichArr[i].x && y == gishatichArr[i].y) {
+                    gishatichArr.splice(i, 1);
                 }
             }
 
             //եթե պատրաստ է բազմացմանը, բազմանում է 
-            if (this.multiply == 10) {
+            if (this.multiply == 30) {
                 this.mul()
                 this.multiply = 0;
             }
@@ -122,13 +149,13 @@ class GrassEater {
             var x = coord[0];
             var y = coord[1];
             // this.multiply++;
-            //ստեղծում է նոր օբյեկտ (այստեղ խոտակեր) 
-            //և տեղադրում է այն խոտակերների զանգվածի մեջ
-            var newEater = new GrassEater(x, y);
-            eatersArr.push(newEater);
+            //ստեղծում է նոր օբյեկտ (այստեղ գիշատակեր ) 
+            //և տեղադրում է այն Գիշատակերների  զանգվածի մեջ
+            var newGishatich = new Gishatich(x, y);
+           gishatichArr.push(newGishatich);
 
-            //հիմնական matrix-ում կատարում է գրառում նոր խոտի մասին
-            matrix[y][x] = 2;
+            //հիմնական matrix-ում կատարում է գրառում նոր Գիշատիչների  մասին
+            matrix[y][x] = 4;
         } 
     }
 
@@ -137,10 +164,10 @@ class GrassEater {
         //Հիմնական մատրիցում իր դիրքում դնում է դատարկություն
         matrix[this.y][this.x] = 0;
 
-        //ջնջում է ինքն իրեն խոտակերների զանգվածից
-        for (var i in eatersArr) {
-            if (this.x == eatersArr[i].x && this.y == eatersArr[i].y) {
-                eatersArr.splice(i, 1);
+        //ջնջում է ինքն իրեն Գիշատակերների  զանգվածից
+        for (var i in gishatakerArr) {
+            if (this.x == gishatakerArr[i].x && this.y == gishatakerArr[i].y) {
+                gishatakerArr.splice(i, 1);
             }
         }
     }
