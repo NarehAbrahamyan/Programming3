@@ -2,7 +2,12 @@
 //! Requiring modules  --  START
 var Grass = require("./modules/Grass.js");
 var GrassEater = require("./modules/GrassEater.js");
+var Gishataker = require('./modules/GishataKer.js');
+var weather = require('./modules/Weather.js');
 let random = require('./modules/random');
+var Gishatich = require('./modules/Gishatich.js');
+var GameEnd = require('./modules/GameEnd.js');
+
 //! Requiring modules  --  END
 
 
@@ -10,7 +15,12 @@ let random = require('./modules/random');
 grassArr = [];
 grassEaterArr = [];
 matrix = [];
+gishatichArr = [];
+gishatakerArr = [];
+gameEndArr = [];
+weatherArr = [];
 grassHashiv = 0;
+
 //! Setting global arrays  -- END
 
 
@@ -34,25 +44,16 @@ function matrixGenerator(matrixSize, grass, grassEater, grassEaterEater, waterAr
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 2;
     }
-    for (let i = 0; i < grassEaterEater; i++) {
+    for (let i = 0; i < Gishatich; i++) {
         let customX = Math.floor(random(matrixSize));
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 3;
-    }
-    for (let i = 0; i < waterArr; i++) {
-        let customX = Math.floor(random(matrixSize));
-        let customY = Math.floor(random(matrixSize));
-        matrix[customY][customX] = 4;
-    }
-    for (let i = 0; i < fireArr; i++) {
-        let customX = Math.floor(random(matrixSize));
-        let customY = Math.floor(random(matrixSize));
-        matrix[customY][customX] = 5;
     }
 }
 matrixGenerator(20, 1, 1);
 //! Creating MATRIX -- END
 
+console.log(matrixGenerator);
 
 
 //! SERVER STUFF  --  START

@@ -7,22 +7,10 @@ class GameEnder {
         this.y = y;
         this.multiply = 0;
         this.energy = 20;
-        this.directions = 
-        [
-            [this.x - 1, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x + 3, this.y - 1],
-            [this.x + 5 , this.y - 1],
-            [this.x + 7, this.y - 1],
-            [this.x + 9 , this.y - 1],
-            [this.x + 11, this.y - 1],
-            [this.x + 13, this.y - 1]
-        ];
+        this.directions =[];
     }
-
     //թարմացնել շրջապատի կոորդինատները
-
-    updateCoordinates() {
+    updateCoordinates(){
         this.directions =    [
             [this.x - 1, this.y - 1],
             [this.x + 1, this.y - 1],
@@ -127,9 +115,9 @@ class GameEnder {
                 }
             }
 
-                for (var i in gishatakerArr) {
-                if (x ==  gishatakerArr[i].x && y == gishatakerArr[i].y) {
-                    gishatakerArr.splice(i, 1);
+                for (var i in gameEndArr) {
+                if (x ==  gameEndArr[i].x && y == gameEndArr[i].y) {
+                    gameEndArr.splice(i, 1);
                 }
             }
 
@@ -164,8 +152,8 @@ class GameEnder {
             // this.multiply++;
             //ստեղծում է նոր օբյեկտ (այստեղ գիշատակեր ) 
             //և տեղադրում է այն Գիշատակերների  զանգվածի մեջ
-            var newGishatich = new Gishatich(x, y);
-           gishatichArr.push(newGishatich);
+            var newGameend = new GameEnd(x, y);
+           gameEndArr.push(newGameend);
 
             //հիմնական matrix-ում կատարում է գրառում նոր Գիշատիչների  մասին
             matrix[y][x] = 4;
@@ -178,9 +166,9 @@ class GameEnder {
         matrix[this.y][this.x] = 0;
 
         //ջնջում է ինքն իրեն Գիշատակերների  զանգվածից
-        for (var i in gishatakerArr) {
-            if (this.x == gishatakerArr[i].x && this.y == gishatakerArr[i].y) {
-                gishatakerArr.splice(i, 1);
+        for (var i in gameEndArr) {
+            if (this.x == gameEndArr[i].x && this.y == gameEndArr[i].y) {
+                gameEndArr.splice(i, 1);
             }
         }
     }
