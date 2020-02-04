@@ -11,6 +11,11 @@ function setup() {
     //! Getting DOM objects (HTML elements)
     let grassCountElement = document.getElementById('grassCount');
     let grassEaterCountElement = document.getElementById('grassEaterCount');
+    let gishatichCountElement = document.getElementById('gishatichCount');
+    let gishatakerCountElement = document.getElementById('gishatakerCount');
+    let weatherCountElement = document.getElementById('weatherCount');
+    let gameendCountElement = document.getElementById('gameendCount');
+
 
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 

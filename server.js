@@ -49,6 +49,21 @@ function matrixGenerator(matrixSize, grass, grassEater, grassEaterEater, waterAr
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 3;
     }
+    for (let i = 0; i < GishatiaKer; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 4;
+    }
+    for (let i = 0; i < GameEnd; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 5;
+    }
+    for (let i = 0; i < Weather; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 6;
+    }
 }
 matrixGenerator(20, 1, 1);
 //! Creating MATRIX -- END
@@ -81,8 +96,23 @@ function creatingObjects() {
                 grassArr.push(grass);
                 grassHashiv++;
             }
+               else if (matrix[y][x] == 3) {
+                 var devil = new Devil(x, y);
+                 gishatichArr.push(devil);
         }
+                  else if (matrix[y][x] == 4) {
+                var devileater = new Devileater(x, y);
+                gishatakerArr.push(devileater);
     }
+           else if (matrix[y][x] == 5) {
+                var gameend = new Gameend(x, y);
+                gameEndArr.push(gameend);
+    }
+            else if (matrix[y][x] == 6) {
+                var exanak = new Exanak(x, y);
+                weatherArr.push(exanak);
+    }
+
 }
 creatingObjects();
 
@@ -97,6 +127,29 @@ function game() {
             grassEaterArr[i].eat();
         }
     }
+    if (gishatichArr[0] !== undefined) {
+        for (var i in gishatichArr) {
+            gishatichArr[i].eat();
+        }
+    }
+    if (gishataKerArr[0] !== undefined) {
+        for (var i in gishataKerArr) {
+            gishataKerArr[i].eat();
+        }
+    }
+    if (gameEndArr[0] !== undefined) {
+        for (var i in gameEndArr) {
+            gameEndArr[i].eat();
+        }
+    }
+      if (weatherArr[0] !== undefined) {
+        for (var i in weatherArr) {
+            weatherArr[i].eat();
+        }
+    }
+
+
+
 
     //! Object to send
     let sendData = {

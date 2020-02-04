@@ -1,176 +1,109 @@
 var LiveForm = require("./LiveForm");
-var random = require("./random");
+var random = require("./random.js");
 
-class GameEnder {
+
+
+module.exports = class GameEnd extends LiveForm {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.multiply = 0;
-        this.energy = 20;
-        this.directions =[];
+        super(x, y);
+        this.life = 10;
     }
-    //թարմացնել շրջապատի կոորդինատները
-    updateCoordinates(){
-        this.directions =    [
+    getNewCoordinates() {
+        this.directions = [
             [this.x - 1, this.y - 1],
+            [this.x, this.y - 1],
             [this.x + 1, this.y - 1],
-            [this.x + 3, this.y - 1],
-            [this.x + 5 , this.y - 1],
-            [this.x + 7, this.y - 1],
-            [this.x + 9 , this.y - 1],
-            [this.x + 11, this.y - 1],
-            [this.x + 13, this.y - 1]
+            [this.x - 1, this.y],
+            [this.x + 1, this.y],
+            [this.x - 1, this.y + 1],
+            [this.x, this.y + 1],
+            [this.x + 1, this.y + 1]
         ];
     }
-   
-
     chooseCell(character) {
-        this.updateCoordinates();
-        var found = [];
-        for (var i in this.directions) {
-            
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-            
+        this.getNewCoordinates();
+        return super.chooseCell(character);
+    } 
+    mul() {
+        let emptyCells = this.chooseCell(6);
+        let newCell = random(emptyCells);
 
-                
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
+        if (newCell) {
+            let x = newCell[0];
+            let y = newCell[1];
+            matrix[y][x] = 2;
+            let gameEnd = new GameEnd(x, y);
+            gameEndArr.push(gameEnd);
+            this.life = 8;
         }
-        return found;
     }
+    eat() {
+        let emptyCells = this.chooseCell(1);
+        let newCell = random(emptyCells);
 
+        if (newCell) {
 
+            this.life++;
+            let x = newCell[0];
+            let y = newCell[1];
 
-    //move() շարժվել
-    move() {
-        //որոնում է դատարկ տարածքներ
-        var emptyCells = this.chooseCell(0);
-        var coord = random(emptyCells);
-       
-        if (coord) {
-            var x = coord[0];
-            var y = coord[1];
-
-            //շարժվում է
             matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
 
-            //նոր կորդինատներ է ստանում
+            for (let i in gishatakerArr) {
+                if (gishatakerArr[i].x == x && gishatakerArr[i].y == y) {
+                    gishatakerArr.splice(i, 1)
+                }
+
+                else if (gishatichArr[i].x == x && gishatichArr[i].y == y) {
+                    gishatichArr.splice(i, 1)
+                }
+                else if (grassArr[i].x == x && grassArr[i].y == y) {
+                    grassArr.splice(i, 1)
+                }
+
+            else if (grassEaterArr[i].x == x && grassEaterArr[i].y == y) {
+                    grassEaterArr.splice(i, 1)
+                }
+           else if (weatherArr[i].x == x && weatherArr[i].y == y) {
+                    weatherArr.splice(i, 1)
+                }
+
+            }
             this.x = x;
             this.y = y;
+
+            if (this.life >= 30)
+                this.mul();
+            }
+        }
+        else {
+            this.move()
         }
     }
+    move() {
+        this.life--;
+        let emptyCells = this.chooseCell(0);
+        let newCell = random(emptyCells);
 
-
-    //eat()-ուտել
-    eat() {
-        //հետազոտում է շրջակայքը, որոնում է սնունդ
-        var gishatichCells = this.chooseCell(3);
-        var gishatakerCells = this.chooseCell(4);
-        var eatersCells = this.chooseCell(2);
-        var grassCells = this.chooseCell(1);
-        var allArr = [ ...gishatakerCells , ...eatersCells, ...gishatichCells, ...grassCells]
-        var coord = random(allArr);
-
-        
-        //եթե կա հարմար սնունդ
-        if (coord) {
-            var x = coord[0];
-            var y = coord[1];
-
-            //հիմնական մատրիցայում տեղափոխվում է կերած սննդի տեղը
-            //իր հին տեղը դնում է դատարկ վանդակ
-            matrix[y][x] = 1; 
+        if (newCell) {
+            let x = newCell[0];
+            let y = newCell[1];
+            matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
-
-            //փոխում է սեփական կորդինատները օբյեկտի մեջ
-            this.x = x;
             this.y = y;
-
-            //բազմացման գործակիցը մեծացնում է
-            this.multiply++;
- 
-            //մեծացնում է էներգիան
-            this.energy++;
-
-            // սննդի զանգվածից ջնջում է կերված սնունդը
-            for (var i in eatersArr) {
-                if (x == eatersArr[i].x && y == eatersArr[i].y) {
-                    eatersArr.splice(i, 1);
-                }
-            }
-             for (var i in grassArr) {
-                if (x == grassArr[i].x && y == grassArr[i].y) {
-                    grassArr.splice(i, 1);
-                }
-            }
-
-             for (var i in gishatichArr) {
-                if (x ==  gishatichArr[i].x && y ==  gishatichArr[i].y) {
-                     gishatichArr.splice(i, 1);
-                }
-            }
-
-                for (var i in gameEndArr) {
-                if (x ==  gameEndArr[i].x && y == gameEndArr[i].y) {
-                    gameEndArr.splice(i, 1);
-                }
-            }
-
-            //եթե պատրաստ է բազմացմանը, բազմանում է 
-            if (this.multiply == 15) {
-                this.mul()
-                this.multiply = 0;
-            }
-
-
-        } else {
-            //եթե չկա հարմար սնունդ 
-            this.move();
-            this.energy--;
-            if (this.energy < 0) { //մահանում է, եթե էներգիան 0֊ից ցածր է
-                this.die();
-            }
+            this.x = x;
+        }
+        if (this.life < 0) {
+            this.die();
         }
     }
-
-    //mul() բազմանալ
-    mul() {
-        //փնտրում է դատարկ տարածք
-        var emptyCells = this.chooseCell(0);
-     
-        var coord = random(emptyCells);
-      
-        //եթե կա բազմանում է
-        if (coord){
-            var x = coord[0];
-            var y = coord[1];
-            // this.multiply++;
-            //ստեղծում է նոր օբյեկտ (այստեղ գիշատակեր ) 
-            //և տեղադրում է այն Գիշատակերների  զանգվածի մեջ
-            var newGameend = new GameEnd(x, y);
-           gameEndArr.push(newGameend);
-
-            //հիմնական matrix-ում կատարում է գրառում նոր Գիշատիչների  մասին
-            matrix[y][x] = 4;
-        } 
-    }
-
-    //die() մահանալ
     die() {
-        //Հիմնական մատրիցում իր դիրքում դնում է դատարկություն
         matrix[this.y][this.x] = 0;
 
-        //ջնջում է ինքն իրեն Գիշատակերների  զանգվածից
-        for (var i in gameEndArr) {
-            if (this.x == gameEndArr[i].x && this.y == gameEndArr[i].y) {
-                gameEndArr.splice(i, 1);
+        for (let i in gameEndArr) {
+            if (gameEndArr[i].x == this.x && gameEndArr[i].y == this.y) {
+                gameEndArr.splice(i, 1)
             }
         }
     }
-
-}
