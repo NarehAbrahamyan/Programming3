@@ -23,7 +23,7 @@ module.exports = class GameEnd extends LiveForm {
     chooseCell(character) {
         this.getNewCoordinates();
         return super.chooseCell(character);
-    } 
+    }
     mul() {
         let emptyCells = this.chooseCell(6);
         let newCell = random(emptyCells);
@@ -62,10 +62,10 @@ module.exports = class GameEnd extends LiveForm {
                     grassArr.splice(i, 1)
                 }
 
-            else if (grassEaterArr[i].x == x && grassEaterArr[i].y == y) {
+                else if (grassEaterArr[i].x == x && grassEaterArr[i].y == y) {
                     grassEaterArr.splice(i, 1)
                 }
-           else if (weatherArr[i].x == x && weatherArr[i].y == y) {
+                else if (weatherArr[i].x == x && weatherArr[i].y == y) {
                     weatherArr.splice(i, 1)
                 }
 
@@ -75,35 +75,35 @@ module.exports = class GameEnd extends LiveForm {
 
             if (this.life >= 30)
                 this.mul();
-            }
-        }
-        else {
-            this.move()
-        }
-    }
-    move() {
-        this.life--;
-        let emptyCells = this.chooseCell(0);
-        let newCell = random(emptyCells);
 
-        if (newCell) {
-            let x = newCell[0];
-            let y = newCell[1];
-            matrix[y][x] = 5;
-            matrix[this.y][this.x] = 0;
-            this.y = y;
-            this.x = x;
         }
-        if (this.life < 0) {
-            this.die();
+        move()
+        {
+            this.life--;
+            let emptyCells = this.chooseCell(0);
+            let newCell = random(emptyCells);
+
+            if (newCell) {
+                let x = newCell[0];
+                let y = newCell[1];
+                matrix[y][x] = 5;
+                matrix[this.y][this.x] = 0;
+                this.y = y;
+                this.x = x;
+            }
+            if (this.life < 0) {
+                this.die();
+            }
         }
     }
     die() {
         matrix[this.y][this.x] = 0;
-
         for (let i in gameEndArr) {
             if (gameEndArr[i].x == this.x && gameEndArr[i].y == this.y) {
                 gameEndArr.splice(i, 1)
             }
+
         }
     }
+}
+

@@ -25,6 +25,12 @@ function setup() {
         //! after getting data pass it to matrix variable
         matrix = data.matrix;
         grassCountElement.innerText = data.grassCounter;
+        grassEaterCountElement.innerText = data.grassEaterCounter;
+        gishatichCountElement.innerText = data.gishatichCounter;
+        gishatakerCountElement.innerText = data.gishatakerCounter;
+        weatherCountElement.innerText = data.weatherCounter;
+        gameendCountElement.innerText = data.gameendCounter;
+
         //! Every time it creates new Canvas woth new matrix size
         createCanvas(matrix[0].length * side, matrix.length * side)
         //! clearing background by setting it to new grey color
@@ -54,8 +60,8 @@ function setup() {
                     fill('purple');
                     rect(j * side, i * side, side, side);
                 }
-                else if (matrix[i][j] == 6){
-                    fill('aqua');
+                else if (matrix[i][j] == 6) {
+                    fill('aqua');   
                     rect(j * side, i * side, side, side);
                 }
             }

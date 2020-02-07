@@ -2,8 +2,8 @@
 //! Requiring modules  --  START
 var Grass = require("./modules/Grass.js");
 var GrassEater = require("./modules/GrassEater.js");
-var Gishataker = require('./modules/GishataKer.js');
-var weather = require('./modules/Weather.js');
+var gishataKer = require('./modules/GishataKer.js');
+var Weather = require('./modules/Weather.js');
 let random = require('./modules/random');
 var Gishatich = require('./modules/Gishatich.js');
 var GameEnd = require('./modules/GameEnd.js');
@@ -20,6 +20,11 @@ gishatakerArr = [];
 gameEndArr = [];
 weatherArr = [];
 grassHashiv = 0;
+grassEaterHashiv = 0;
+gishatakerHashiv = 0;
+gishatichHashiv = 0;
+gameendHashiv = 0;
+weatherHashiv = 0;
 
 //! Setting global arrays  -- END
 
@@ -27,7 +32,7 @@ grassHashiv = 0;
 
 
 //! Creating MATRIX -- START
-function matrixGenerator(matrixSize, grass, grassEater, grassEaterEater, waterArr, fireArr) {
+function matrixGenerator(matrixSize, grass, grassEater, gishatich, GishatiaKer, weather, gameEnd) {
     for (let i = 0; i < matrixSize; i++) {
         matrix[i] = [];
         for (let o = 0; o < matrixSize; o++) {
@@ -44,7 +49,7 @@ function matrixGenerator(matrixSize, grass, grassEater, grassEaterEater, waterAr
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 2;
     }
-    for (let i = 0; i < Gishatich; i++) {
+    for (let i = 0; i < gishatich; i++) {
         let customX = Math.floor(random(matrixSize));
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 3;
@@ -54,12 +59,12 @@ function matrixGenerator(matrixSize, grass, grassEater, grassEaterEater, waterAr
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 4;
     }
-    for (let i = 0; i < GameEnd; i++) {
+    for (let i = 0; i < gameEnd; i++) {
         let customX = Math.floor(random(matrixSize));
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 5;
     }
-    for (let i = 0; i < Weather; i++) {
+    for (let i = 0; i < weather; i++) {
         let customX = Math.floor(random(matrixSize));
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 6;
@@ -96,23 +101,25 @@ function creatingObjects() {
                 grassArr.push(grass);
                 grassHashiv++;
             }
-               else if (matrix[y][x] == 3) {
-                 var devil = new Devil(x, y);
-                 gishatichArr.push(devil);
-        }
-                  else if (matrix[y][x] == 4) {
+            else if (matrix[y][x] == 3) {
+                var gishatich = new gishatich (x, y);
+                gishatichArr.push(gishatich);
+            }
+            else if (matrix[y][x] == 4) {
                 var devileater = new Devileater(x, y);
                 gishatakerArr.push(devileater);
-    }
-           else if (matrix[y][x] == 5) {
+            }
+            else if (matrix[y][x] == 5) {
                 var gameend = new Gameend(x, y);
                 gameEndArr.push(gameend);
-    }
+            }
             else if (matrix[y][x] == 6) {
                 var exanak = new Exanak(x, y);
                 weatherArr.push(exanak);
-    }
+            }
 
+        }
+    }
 }
 creatingObjects();
 
@@ -132,7 +139,7 @@ function game() {
             gishatichArr[i].eat();
         }
     }
-    if (gishataKerArr[0] !== undefined) {
+    if (gishatakerArr[0] !== undefined) {
         for (var i in gishataKerArr) {
             gishataKerArr[i].eat();
         }
@@ -142,7 +149,7 @@ function game() {
             gameEndArr[i].eat();
         }
     }
-      if (weatherArr[0] !== undefined) {
+    if (weatherArr[0] !== undefined) {
         for (var i in weatherArr) {
             weatherArr[i].eat();
         }
@@ -154,13 +161,16 @@ function game() {
     //! Object to send
     let sendData = {
         matrix: matrix,
-        grassCounter: grassHashiv
+        grassCounter: grassHashiv,
+        grassEatercounter: grassEaterHashiv,
+        gishatichCounter: gishatichHashiv,
+        gishatakerCounter: gishatakerHashiv,
+        weatherCounter: weatherHashiv,
+        gameendCounter: gameendHashiv
+        
     }
 
     //! Send data over the socket to clients who listens "data"
     io.sockets.emit("data", sendData);
 }
-
-
-
-setInterval(game, 1000)
+setInterval(game, 1000);

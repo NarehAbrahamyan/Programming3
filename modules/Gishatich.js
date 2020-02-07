@@ -33,7 +33,7 @@ module.exports = class Gishatich extends LiveForm {
             let y = newCell[1];
             matrix[y][x] = 3;
             let gishatich = new Gishatich(x, y);
-            grassEaterArr.push(grassEater);
+            gishatichArr.push(gishatich);
             this.life = 10;
         }
     }
@@ -79,7 +79,7 @@ module.exports = class Gishatich extends LiveForm {
             this.y = y;
             this.x = x;
         }
-        if (this.life =< 5) {
+        if (this.life <= 5) {
             this.die();
         }
     }
