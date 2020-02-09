@@ -29,12 +29,12 @@ module.exports = class Weather extends LiveForm {
         let newCell = random(emptyCells);
 
         if (newCell && this.multiply >= 2) {
-            grassHashiv++;
+            weatherHashiv++;
             let x = newCell[0];
-            let y = newCell[6];
+            let y = newCell[1];
             matrix[y][x] = 6;
             let weather = new Weather(x, y);
-            weatherArr.push(Weather);
+            weatherArr.push(weather);
             this.multiply = 0;
         }
     }

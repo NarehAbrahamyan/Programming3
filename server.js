@@ -25,6 +25,7 @@ gishatakerHashiv = 0;
 gishatichHashiv = 0;
 gameendHashiv = 0;
 weatherHashiv = 0;
+weather = " ";
 
 //! Setting global arrays  -- END
 
@@ -70,10 +71,9 @@ function matrixGenerator(matrixSize, grass, grassEater, gishatich, GishatiaKer, 
         matrix[customY][customX] = 6;
     }
 }
-matrixGenerator(20, 1, 1);
+matrixGenerator(50, 1000, 200, 100, 10, 1, 2, 1);
 //! Creating MATRIX -- END
 
-console.log(matrixGenerator);
 
 
 //! SERVER STUFF  --  START
@@ -85,7 +85,7 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
-server.listen(3000);
+server.listen(3001);
 //! SERVER STUFF END  --  END
 
 
@@ -96,34 +96,57 @@ function creatingObjects() {
             if (matrix[y][x] == 2) {
                 var grassEater = new GrassEater(x, y);
                 grassEaterArr.push(grassEater);
+                grassEaterHashiv++;
             } else if (matrix[y][x] == 1) {
                 var grass = new Grass(x, y);
                 grassArr.push(grass);
                 grassHashiv++;
             }
             else if (matrix[y][x] == 3) {
-                var gishatich = new gishatich (x, y);
+                var gishatich = new Gishatich(x, y);
                 gishatichArr.push(gishatich);
+                gishatichHashiv++;
             }
             else if (matrix[y][x] == 4) {
-                var devileater = new Devileater(x, y);
+                var devileater = new gishataKer(x, y);
                 gishatakerArr.push(devileater);
+                gishatakerHashiv++;
             }
             else if (matrix[y][x] == 5) {
-                var gameend = new Gameend(x, y);
+                var gameend = new GameEnd(x, y);
                 gameEndArr.push(gameend);
+                gameendHashiv++;
             }
             else if (matrix[y][x] == 6) {
-                var exanak = new Exanak(x, y);
+                var exanak = new Weather(x, y);
                 weatherArr.push(exanak);
+                weatherHashiv++;
             }
 
         }
     }
 }
 creatingObjects();
+let counter = 0;
 
 function game() {
+    counter++;
+
+    if (counter >= 0 && counter <= 10) {
+        weather = "spring"
+    }
+    else if (counter > 10 && counter <= 20) {
+        weather = "summer"
+    }
+    else if (counter > 20 && counter <= 30) {
+        weather = "autumn"
+    }
+    else if (counter > 30 && counter <= 40) {
+        weather = "winter"
+    }
+    else {
+        counter = 0
+    }
     if (grassArr[0] !== undefined) {
         for (var i in grassArr) {
             grassArr[i].mul();
@@ -140,8 +163,8 @@ function game() {
         }
     }
     if (gishatakerArr[0] !== undefined) {
-        for (var i in gishataKerArr) {
-            gishataKerArr[i].eat();
+        for (var i in gishatakerArr) {
+            gishatakerArr[i].eat();
         }
     }
     if (gameEndArr[0] !== undefined) {
@@ -151,7 +174,7 @@ function game() {
     }
     if (weatherArr[0] !== undefined) {
         for (var i in weatherArr) {
-            weatherArr[i].eat();
+            weatherArr[i].mul();
         }
     }
 
@@ -166,11 +189,12 @@ function game() {
         gishatichCounter: gishatichHashiv,
         gishatakerCounter: gishatakerHashiv,
         weatherCounter: weatherHashiv,
-        gameendCounter: gameendHashiv
-        
+        gameendCounter: gameendHashiv,
+        weather: weather
+
     }
 
     //! Send data over the socket to clients who listens "data"
     io.sockets.emit("data", sendData);
 }
-setInterval(game, 1000);
+setInterval(game, 600);

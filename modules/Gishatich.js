@@ -29,6 +29,7 @@ module.exports = class Gishatich extends LiveForm {
         let newCell = random(emptyCells);
 
         if (newCell) {
+           
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 3;
@@ -58,7 +59,7 @@ module.exports = class Gishatich extends LiveForm {
             this.x = x;
             this.y = y;
 
-            if (this.life >= 50) {
+            if (this.life >= 20) {
                 this.mul();
             }
         }
